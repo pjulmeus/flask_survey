@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Answers{% endblock %}
+{% block content %}
+<h1>Answers</h1>
+<ul>
+    {% for r in responses %}
+    <li>{{r}}</li>
+    {% endfor %}
+</ul>
+{% endblock %}
