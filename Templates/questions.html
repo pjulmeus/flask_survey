@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Questions{% endblock %}
 {% block content %}
-<form action="/questions/{{id+1}}">
+<form action="/answer" method="POST">
     <h3>{{ survey_questions }}</h3>
     {% for r in survey_respones %}
     <input type="radio" name="responses" id="{{r}}" value="{{r}}"><label>{{r}}</label>

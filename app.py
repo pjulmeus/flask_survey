@@ -21,7 +21,7 @@ def homepage():
     instructions = satisfaction_survey.instructions
     return render_template("home.html", survey_title=header, survey_instructions = instructions)
 
-# size = len(satisfaction_survey.questions)
+size = len(satisfaction_survey.questions)
 # for n in range(size):
 #     list1.append(n)
     
@@ -38,13 +38,13 @@ for r in satisfaction_survey.questions:
 def questions(id): 
     q_item = questions_list[id]
     r_item = responses_list[id]
-    if questions_list[id] == questions_list[-1]:
-         return render_template("answer.html", responses = responses)
-    # size = len(satisfaction_survey.questions)
-    else:
-        answers = request.args.get("responses")
-        responses.append(answers)
-        return render_template("questions.html", survey_questions = q_item, survey_respones = r_item, id = id)
+    if len(responses) == len(satisfaction_survey.questions):
+        return render_template("final.html", responses= responses)  
+    else:  
+        return render_template("questions.html", survey_questions = q_item, survey_respones = r_item, id = id)   
+       
+        
+       
 
 # @app.route('/questions', methods = ["POST"])
 # def questions_post():
@@ -56,7 +56,16 @@ def questions(id):
 #      sizes = size
 #      return redirect("/answer")
 
-# @app.route('/answer', methods = ["POST"])
-# def answers():
-#     return render_template("answer.html", responses = responses)
-    
+
+@app.route('/answer', methods = ["POST"])
+def answers():
+    ans = request.form.get("responses")
+    responses.append(ans)
+    if len(responses) == len(questions_list):
+        return redirect("/final")
+    else: 
+        return redirect(f"/questions/{len(responses)}")
+
+@app.route('/final')
+def final():
+     return render_template("final.html", resp = responses)
